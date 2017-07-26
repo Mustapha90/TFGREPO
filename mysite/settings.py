@@ -59,11 +59,11 @@ else:
 	# SECURITY WARNING: keep the secret key used in production secret!
 	SECRET_KEY = '+_gff1)wk_b!0042x6x3=u5mr^8^y!kw*vz^yh+70cyg7l(hs&'
 
-    # No permitir el acceso externo
-    ALLOWED_HOSTS = []
+	# No permitir el acceso externo
+	ALLOWED_HOSTS = []
 
     # Habilitar la depuración
-    DEBUG = True
+	DEBUG = True
 
     # Usar la base de datos sqlite3
 	# Database
