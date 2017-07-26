@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for mysite project.
 
@@ -33,7 +35,7 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Variable de entorno que ayuda a determinar si el entorno es Heroku
 ON_HEROKU = 'ON_HEROKU' in os.environ
 
-# Configuración para el entorno de produccón
+
 if ON_HEROKU:  
 
     # Obtener la clave secreta desde la variable de entorno SECRET_KEY
