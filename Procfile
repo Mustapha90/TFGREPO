@@ -1,2 +1,2 @@
-web: gunicorn tango_with_django_project.wsgi --log-file -
+web: gunicorn mysite.wsgi --log-file -
 
