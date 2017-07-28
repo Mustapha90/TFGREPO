@@ -652,7 +652,7 @@ input.search-form:hover {
 }
 
 #services {
-  background: #000 url(../images/services/bg_services.png);
+  background: #000 url(../images/services/bg_services.jpg);
   background-size: cover;
 }
 
@@ -2527,6 +2527,24 @@ shortcodes page css
 
 
 
+#hl{
+	text-decoration: none;
+	color: blue;
+}
 
+#hl1{
+	text-decoration: none;
+	color: red;
+    font-weight: bold;
+}
 
+#hllink{
+	text-decoration: none;
+	color: blue;
+}
+
+#filh3{
+	color:  #6666ff;
+	font-weight: bold;
+}
 
