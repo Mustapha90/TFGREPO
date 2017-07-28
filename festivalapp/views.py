@@ -14,3 +14,6 @@ def index(request):
 
 
 
+def contacto(request):
+	return render(request, 'festivalapp/contact-us.html')
+
