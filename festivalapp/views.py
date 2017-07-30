@@ -18,3 +18,6 @@ def contacto(request):
 
 def aboutus(request):
 	return render(request, 'festivalapp/sobrenosotros.html')
+
+def bases(request):
+	return render(request, 'festivalapp/bases.html')
