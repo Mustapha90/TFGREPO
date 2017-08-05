@@ -21,3 +21,6 @@ def aboutus(request):
 
 def bases(request):
 	return render(request, 'festivalapp/bases.html')
+
+def galardones(request):
+	return render(request, 'festivalapp/galardones.html')
