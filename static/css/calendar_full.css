@@ -1,0 +1,219 @@
+/* Events Calendar contain */
+.tiva-event-calendar-wrapper {
+	margin: 25px 0 40px 0;
+	border: 1px solid #eeeeee;
+    box-shadow: 0 0 5px 2px rgba(145,145,145,.35);
+    -moz-border-radius-bottomleft: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border-collapse: collapse;
+    border-spacing: 0;
+	background: #f2f2f2;
+}
+
+/* Calendar */
+.n-tiva-calendar-full .calendar-table {
+	margin-bottom: 0 !important;
+}
+.n-tiva-calendar-full .calendar-title , .n-tiva-calendar-full .calendar-btn {
+	text-align: center !important;
+	background: #5AA4A3;
+	color: #ffffff;
+	height: 30px;
+	vertical-align: middle !important;
+}
+.n-tiva-calendar-full .calendar-btn {
+	padding: 0 !important;
+}
+.n-tiva-calendar-full .calendar-btn span {
+	cursor: pointer;
+	font-size: 13px !important;
+}
+.n-tiva-calendar-full .calendar-title  {
+	font-size: 15px;
+	font-weight: bold;
+	padding-top: 12px !important;
+	padding-left: 30px !important;
+}
+.n-tiva-calendar-full .calendar-title span {
+	position: relative;
+	color: #fff;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 20px;
+}
+.n-tiva-calendar-full .calendar-title i {
+	position: absolute;
+	left: -22px;
+	top: -1px;
+}
+.n-tiva-calendar-full .calendar-table tr th {
+	text-align: center;
+	color: #5AA4A3;
+	background: #eeeeee;
+	font-size: 14px;
+}
+.n-tiva-calendar-full .calendar-table tr th, .n-tiva-calendar-full .calendar-table tr td {
+	width: 14.285714285714285%;
+}
+.n-tiva-calendar-full .calendar-day-blank {
+	background: #f6f6f6;
+}
+.n-tiva-calendar-full .calendar-day-normal {
+	height: 60px;
+	font-size: 16px;
+	text-align: right !important;
+	padding: 6px 10px !important;
+	color: #666;
+}
+.n-tiva-calendar-full .calendar-day-today {
+	background: #d5e9e9;
+}
+.n-tiva-calendar-full .calendar-day-weekend {
+	color: #ef4f69;
+	line-height: 20px;
+	font-size: 16px;
+}
+.n-tiva-calendar-full .calendar-event-name {
+	color: #ffffff;
+	background: #567BD2;
+	font-size: 11px;
+	margin-top: 5px;
+	text-align: center;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+	line-height: 20px;
+	padding: 0 3px;
+	cursor: pointer;
+}
+.n-tiva-calendar-full .calendar-event-name span {
+	color: #ffffff;
+	font-size: 11px;
+	line-height: 20px;
+}
+.n-tiva-calendar-full .calendar-event-name.no-name {
+	opacity: 0;
+	visibility: hidden;
+}
+.n-tiva-calendar-full .calendar-event-name.color-1 {
+	background: #567BD2;
+}
+.n-tiva-calendar-full .calendar-event-name.color-2 {
+	background: #13baff;
+}
+.n-tiva-calendar-full .calendar-event-name.color-3 {
+	background: #669933;
+}
+.n-tiva-calendar-full .calendar-event-name.color-4 {
+	background: #ff8a23;
+}
+.n-tiva-calendar-full .calendar-event-name.first-day {
+	margin-right: -11px;
+	-moz-border-radius-topright: 0;
+    -webkit-border-top-right-radius: 0;
+    border-top-right-radius: 0;
+	-moz-border-radius-bottomright: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.n-tiva-calendar-full .calendar-event-name.middle-day {
+	margin-left: -11px;
+	margin-right: -11px;
+	-webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.n-tiva-calendar-full .calendar-event-name.middle-day span {
+	opacity: 0;	
+}
+.n-tiva-calendar-full .calendar-event-name.last-day {
+	margin-left: -11px;
+	-moz-border-radius-topleft: 0;
+    -webkit-border-top-left-radius: 0;
+    border-top-left-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.n-tiva-calendar-full .calendar-event-name.last-day span {
+	opacity: 0;	
+}
+
+/* Event list */
+.n-tiva-event-list-full .event-item-left {
+	width: 20%;
+	margin-right: 2%;
+}
+.n-tiva-event-list-full .event-item-right {
+	width: 78%;
+}
+.n-tiva-event-list-full .event-image img {
+	width: 100%;
+	border: 1px solid #eee;
+}
+.n-tiva-event-list-full .event-name {
+	font-size: 17px;
+	margin-bottom: 6px;
+}
+
+/* Event detail */
+.n-tiva-event-detail-full .event-image {
+	text-align: center;
+	margin-bottom: 20px;
+}
+.n-tiva-event-detail-full .event-image img {
+	max-width: 100%;
+	border: 1px solid #eee;
+}
+.n-tiva-event-detail-full .event-name {
+	font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+	.n-tiva-event-list-full .event-item-left {
+		margin-right: 2% !important;
+	}
+	.n-tiva-event-list-full .event-item-left.pull-left, .n-tiva-event-list-full .event-item-right.pull-left {
+		float: left !important;
+	}
+}
+@media (max-width: 768px) {
+	.n-tiva-calendar-full .btn-change-date {
+		display: none;
+	}
+	.n-tiva-calendar-full .calendar-day-normal, .n-tiva-calendar-full .calendar-day-blank {
+		padding: 2px !important;
+	}
+	.n-tiva-calendar-full .calendar-table tr th {
+		padding: 5px 3px !important;
+		font-size: 11px;
+	}
+	.n-tiva-event-list-full .event-item-left {
+		margin-bottom: 10px !important;
+	}
+	.n-tiva-event-list-full .event-item-left, .n-tiva-event-list-full .event-item-right {
+		width: 100%;
+	}
+	.n-tiva-calendar-full .calendar-event-name.first-day {
+		margin-right: -3px;
+	}
+	.n-tiva-calendar-full .calendar-event-name.middle-day {
+		margin-left: -2px;
+		margin-right: -2px;
+	}
+	.n-tiva-calendar-full .calendar-event-name.last-day {
+		margin-left: -2px;
+	}
+}

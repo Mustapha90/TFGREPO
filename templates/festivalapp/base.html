@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mustapha Mayo">
+
+    <title>DAI</title>
+
+
+	<!-- core CSS -->
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/animate.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/prettyPhoto.css'%}" rel="stylesheet">
+    <link href="{% static 'css/main.css'%}" rel="stylesheet">
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css'%}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="{% static 'images/ico/favicon.ico'%}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144-precomposed.png'%}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114-precomposed.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72-precomposed.png'%}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57-precomposed.png'%}">
+
+
+
+    <!-- Custom CSS -->
+
+
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+
+    <style type="text/css">
+  .nav-tabs li a {font-size:22px;}
+</style>
+    <!-- jQuery Version 1.11.0 -->
+    <script src="{% static 'bootstrap/js/jquery-1.11.0.js'%}"></script>
+
+</head>
+
+<body>
+<br>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="indexbs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index">DAI - Practica 3</a>
+        <input id="letra_normal" type="button" value="A" />
+        <input id="letra_grande" type="button" value="A+" />
+        <input id="letra_mas_grande" type="button" value="A++" />
+            </div>
+
+
+
+
+           {% if user.is_authenticated %}
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                    <li class="dropdown"><a href="index" class="dropdown-toggle" data-toggle="dropdown">Bienvenido, {{user.username}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""><i class="glyphicon glyphicon-cog"></i>   Mi perfil</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'auth_logout' %}?next=/index/"><i class="glyphicon glyphicon-off"></i>   Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+
+		{% else %}
+
+
+
+
+
+                <div class="navbar-form navbar-right">
+					<a href="{% url 'auth_login' %}">Entrar | </a>
+					<a href="{% url 'registration_register' %}">Registrarse</a>
+            	</div>
+
+		{% endif %}
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+  
+<div class="container">
+
+	<div class="row">
+	            <div class="col-md-3">
+
+                <p class="lead">{{subtitle}}</p>
+
+                <div class="list-group" id="list-group">
+					<div class="top" id="top">
+        				<a class="list-group-item" data-remote="true" href="" id="cat_index" data-toggle="collapse" data-parent="indexsub_index" ">
+          					<span>index</span>
+          					<span class="menu-ico-collapse"><i class="fa fa-chevron-down"></i></span>
+        				</a>
+
+
+
+
+						<div class="sub">
+							<div class="collapse list-group-submenu" id="sub_index">
+								<a href="{% url 'index' %}" class="list-group-item sub-item" data-parent="indexsub_index" style="padding-left: 78px;">Mostrar index</a>
+
+                     			<a href="{% url 'index' %}" class="list-group-item sub-item" data-parent="indexsub_index" style="padding-left: 78px;">Añadir restaurante</a>
+							</div>
+   						</div>
+
+
+
+
+					 </div>
+
+
+                    <a href="" class="list-group-item">Enlace 2</a>
+                    <a href="" class="list-group-item">Enlace 3</a>
+                    <a href="" class="list-group-item">Enlace 4</a>
+                    <a href="" class="list-group-item">Enlace 5</a>
+                    <a href="" class="list-group-item">Enlace 6</a>
+                </div>
+
+
+	            </div>
+
+
+
+      {% block content %}
+
+      {% endblock %}
+
+	</div
+
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; Copyright 2016 - Mustapha Mayo</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="{% static 'bootstrap/js/jquery-1.11.0.js'%}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+
+<script type="text/javascript">
+var onResize = function() {
+  // apply dynamic padding at the top of the body according to the fixed navbar height
+  $("body").css("padding-top", $(".navbar-fixed-top").height());
+};
+
+// attach the function to the window resize event
+$(window).resize(onResize);
+
+// call it also when the page is ready after load or reload
+$(function() {
+  onResize();
+});
+
+
+$(document).ready(function () {
+	var fontSize = $("body").css('font-size');
+    $('indexletra_normal').click(function(){
+        $( "body" ).css( "fontSize", fontSize );
+    });
+    $('indexletra_grande').click(function(){
+        $( "body" ).css( "fontSize", "150%" );
+    });
+    $('indexletra_mas_grande').click(function(){
+        $( "body" ).css( "fontSize", "170%" );
+    });
+
+    $("indextop").hover(function () {
+       $("indexsub_index").slideDown('fast').show();
+    }, function () {
+       $("indexsub_index").slideUp('slow');
+    });
+});
+</script>
+
+</body>
+
+</html>
+
+    </div>
+

@@ -1,0 +1,517 @@
+/* Common */
+.hidden-fields {
+	display: none;
+}
+.cleardiv {
+	clear: both;
+}
+.loading {
+	text-align: center;
+}
+.tiva-event-calendar {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	line-height: 25px;
+}
+
+/* Bar */
+.n-events-calendar-bar {
+	margin-top: 20px;
+}
+.n-events-calendar-bar .bar-btn.active {
+	background: #5AA4A3 !important;
+}
+.n-events-calendar-bar .bar-btn {
+	color: #fff;
+    background: #757575;
+    padding: 3px 10px 3px 28px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    border: 0;
+    margin-right: 10px;
+	line-height: 26px;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+}
+.n-events-calendar-bar .bar-btn:hover {
+	background: #5AA4A3 !important;
+}
+.n-events-calendar-bar .n-back-calendar {
+	padding: 3px 10px 3px 22px;
+	margin-right: 0;
+	float: right !important;
+}
+.n-events-calendar-bar .bar-btn i {
+	position: absolute;
+	left: 10px;
+}
+.n-events-calendar-bar .n-calendar-view i {
+	top: 7px;
+}
+.n-events-calendar-bar .n-list-view i {
+	top: 9px;
+}
+.n-events-calendar-bar .n-back-calendar i {
+	top: 9px;
+}
+
+/* Calendar */
+.n-tiva-calendar .calendar-table {
+	table-layout: auto;
+	box-sizing: content-box;
+	border-right: 0;
+}
+.n-tiva-calendar .calendar-table th, 
+.n-tiva-calendar .calendar-table td {
+	border-bottom: none;
+	border-right: none;
+	padding: 8px;
+}
+.n-tiva-calendar .calendar-btn span {
+	font-size: 14px;
+	color: #fff;
+}
+
+/* Event list */
+.n-tiva-event-list {
+	padding: 15px;
+	background: #eeeeee;
+	display: none;
+}
+.n-tiva-event-list .event-item {
+	width: 100%;
+	border-top: 1px dotted #666;
+	margin-top: 20px;
+	padding-top: 20px;
+}
+.n-tiva-event-list .event-item:first-child {
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+}
+.n-tiva-event-list .event-name {
+	color: #5aa4a3;
+}
+.n-tiva-event-list .event-time, 
+.n-tiva-event-list .event-date {
+	margin-bottom: 0;
+	color: #de935f;
+	font-size: 13px;
+}
+.n-tiva-event-list .event-time i, 
+.n-tiva-event-list .event-date i {
+	margin-right: 5px;
+}
+.n-tiva-event-list .event-desc {
+	color: #666;
+	font-size: 14px;
+	margin-top: 5px;
+}
+.n-tiva-event-list .link {
+	cursor: pointer;
+}
+
+/* Event detail */
+.n-tiva-event-detail {
+	padding: 15px;
+	background: #eeeeee;
+	display: none;
+}
+.n-tiva-event-detail .event-name {
+	color: #5aa4a3;
+}
+.n-tiva-event-detail .event-time, 
+.n-tiva-event-detail .event-date, 
+.n-tiva-event-detail .event-location {
+	margin-bottom: 2px;
+	color: #de935f;
+	font-size: 14px;
+}
+.n-tiva-event-detail .event-time i, 
+.n-tiva-event-detail .event-date i, 
+.n-tiva-event-detail .event-location i {
+	margin-right: 5px;
+	width: 14px;
+}
+.n-tiva-event-detail .event-location i {
+	font-size: 18px;
+}
+.n-tiva-event-detail .event-desc {
+	color: #666;
+	border-top: 1px solid #e2e2e2;
+	padding-top: 15px;
+	margin-top: 15px;
+	margin-bottom: 22px;
+	line-height: 22px;
+	font-size: 14px;
+}
+
+
+/* Tooltip */
+.calendar-day-event {
+	position: relative;
+}
+.calendar-day-event .n-tiva-event-tooltip {
+	position: absolute;
+    z-index: 9999;
+    width: 180px;
+    left: 50%;
+	margin: 0 0 0 -100px;
+    bottom: 35px;
+    background: #f5f5f5;
+    opacity: 0;
+	border: 1px solid #cccccc;
+	box-shadow: 0 0 5px 2px rgba(145,145,145,.35);
+    border-radius: 6px;
+	pointer-events: none;
+	padding: 10px;
+	text-align: left;
+	-webkit-transform: translate3d(0,-10px,0);
+	transform: translate3d(0,-10px,0);
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+}
+.calendar-day-event .n-tiva-event-tooltip::before, .calendar-day-event .n-tiva-event-tooltip::after {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.calendar-day-event .n-tiva-event-tooltip::after {
+	border-color: rgba(245, 245, 245, 0);
+	border-top-color: #f5f5f5;
+	border-width: 8px;
+	margin-left: -8px;
+}
+.calendar-day-event .n-tiva-event-tooltip::before {
+	border-color: rgba(204, 204, 204, 0);
+	border-top-color: #cccccc;
+	border-width: 9px;
+	margin-left: -9px;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-tooltip-item {
+	border-bottom: 1px dotted #666;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-tooltip-item:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-time {
+	display: inline-block;
+	font-size: 12px;
+	color: #fff;
+    background: #757575;
+    padding: 0 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 0;
+    margin-bottom: 5px;
+	line-height: 22px;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-time i {
+	margin-right: 5px;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-name {
+	font-size: 15px;
+	line-height: 20px;
+	margin-bottom: 6px;
+	color: #5aa4a3;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-image  img {
+	width: 100%;
+	margin-bottom: 6px;
+	border: 1px solid #EEE;
+}
+.calendar-day-event .n-tiva-event-tooltip .event-desc {
+	font-size: 14px;
+}
+
+/* Bootstrap */
+table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table thead th {
+  vertical-align: bottom;
+}
+
+.table caption + thead tr:first-child th,
+.table caption + thead tr:first-child td,
+.table colgroup + thead tr:first-child th,
+.table colgroup + thead tr:first-child td,
+.table thead:first-child tr:first-child th,
+.table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.table .table {
+  background-color: #ffffff;
+}
+
+.table-condensed th,
+.table-condensed td {
+  padding: 4px 5px;
+}
+
+.table-bordered {
+  border: 1px solid #dddddd;
+  border-collapse: separate;
+  *border-collapse: collapse;
+  border-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border-left: 1px solid #dddddd;
+}
+
+.table-bordered caption + thead tr:first-child th,
+.table-bordered caption + tbody tr:first-child th,
+.table-bordered caption + tbody tr:first-child td,
+.table-bordered colgroup + thead tr:first-child th,
+.table-bordered colgroup + tbody tr:first-child th,
+.table-bordered colgroup + tbody tr:first-child td,
+.table-bordered thead:first-child tr:first-child th,
+.table-bordered tbody:first-child tr:first-child th,
+.table-bordered tbody:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table-bordered thead:first-child tr:first-child > th:first-child,
+.table-bordered tbody:first-child tr:first-child > td:first-child,
+.table-bordered tbody:first-child tr:first-child > th:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered thead:first-child tr:first-child > th:last-child,
+.table-bordered tbody:first-child tr:first-child > td:last-child,
+.table-bordered tbody:first-child tr:first-child > th:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:first-child,
+.table-bordered tbody:last-child tr:last-child > td:first-child,
+.table-bordered tbody:last-child tr:last-child > th:first-child,
+.table-bordered tfoot:last-child tr:last-child > td:first-child,
+.table-bordered tfoot:last-child tr:last-child > th:first-child {
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:last-child,
+.table-bordered tbody:last-child tr:last-child > td:last-child,
+.table-bordered tbody:last-child tr:last-child > th:last-child,
+.table-bordered tfoot:last-child tr:last-child > td:last-child,
+.table-bordered tfoot:last-child tr:last-child > th:last-child {
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+}
+
+.table-bordered caption + thead tr:first-child th:first-child,
+.table-bordered caption + tbody tr:first-child td:first-child,
+.table-bordered colgroup + thead tr:first-child th:first-child,
+.table-bordered colgroup + tbody tr:first-child td:first-child {
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered caption + thead tr:first-child th:last-child,
+.table-bordered caption + tbody tr:first-child td:last-child,
+.table-bordered colgroup + thead tr:first-child th:last-child,
+.table-bordered colgroup + tbody tr:first-child td:last-child {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+}
+
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+
+.table-hover tbody tr:hover > td,
+.table-hover tbody tr:hover > th {
+  background-color: #f5f5f5;
+}
+
+table td[class*="span"],
+table th[class*="span"],
+.row-fluid table td[class*="span"],
+.row-fluid table th[class*="span"] {
+  display: table-cell;
+  float: none;
+  margin-left: 0;
+}
+
+.table td.span1,
+.table th.span1 {
+  float: none;
+  width: 44px;
+  margin-left: 0;
+}
+
+.table td.span2,
+.table th.span2 {
+  float: none;
+  width: 124px;
+  margin-left: 0;
+}
+
+.table td.span3,
+.table th.span3 {
+  float: none;
+  width: 204px;
+  margin-left: 0;
+}
+
+.table td.span4,
+.table th.span4 {
+  float: none;
+  width: 284px;
+  margin-left: 0;
+}
+
+.table td.span5,
+.table th.span5 {
+  float: none;
+  width: 364px;
+  margin-left: 0;
+}
+
+.table td.span6,
+.table th.span6 {
+  float: none;
+  width: 444px;
+  margin-left: 0;
+}
+
+.table td.span7,
+.table th.span7 {
+  float: none;
+  width: 524px;
+  margin-left: 0;
+}
+
+.table td.span8,
+.table th.span8 {
+  float: none;
+  width: 604px;
+  margin-left: 0;
+}
+
+.table td.span9,
+.table th.span9 {
+  float: none;
+  width: 684px;
+  margin-left: 0;
+}
+
+.table td.span10,
+.table th.span10 {
+  float: none;
+  width: 764px;
+  margin-left: 0;
+}
+
+.table td.span11,
+.table th.span11 {
+  float: none;
+  width: 844px;
+  margin-left: 0;
+}
+
+.table td.span12,
+.table th.span12 {
+  float: none;
+  width: 924px;
+  margin-left: 0;
+}
+
+.table tbody tr.success > td {
+  background-color: #dff0d8;
+}
+
+.table tbody tr.error > td {
+  background-color: #f2dede;
+}
+
+.table tbody tr.warning > td {
+  background-color: #fcf8e3;
+}
+
+.table tbody tr.info > td {
+  background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover > td {
+  background-color: #d0e9c6;
+}
+
+.table-hover tbody tr.error:hover > td {
+  background-color: #ebcccc;
+}
+
+.table-hover tbody tr.warning:hover > td {
+  background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover > td {
+  background-color: #c4e3f3;
+}

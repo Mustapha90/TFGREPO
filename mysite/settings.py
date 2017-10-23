@@ -28,10 +28,6 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 
-
-
-
-
 # Variable de entorno que ayuda a determinar si el entorno es Heroku
 ON_HEROKU = 'ON_HEROKU' in os.environ
 
@@ -89,6 +85,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
+	'formtools',
+	'django_countries',
+	'bootstrap_datepicker',
+    'paypal.standard.ipn',
+    'table',
 ]
 
 MIDDLEWARE = [
@@ -147,9 +149,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -165,4 +167,18 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join('static'), )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+
+
+
+AUTH_USER_MODEL = 'festivalapp.User'
+
+AUTH_PROFILE_MODULE = 'festivalapp.Profile'
+
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'mj4ever001@gmail.com'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

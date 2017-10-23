@@ -15,7 +15,15 @@
     <link href="{% static 'css/animate.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/prettyPhoto.css'%}" rel="stylesheet">
     <link href="{% static 'css/main.css'%}" rel="stylesheet">
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet">
     <link href="{% static 'css/responsive.css'%}" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'css/calendar.css'%}">
+<link rel="stylesheet" href="{% static 'css/calendar_full.css'%}">
+<link rel="stylesheet" href="{% static 'css/calendar_compact.css'%}">
+
+
+
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -33,26 +41,49 @@
         <div class="top-bar">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-4">
-                    </div>
-					
-                    <div class="col-sm-6 col-xs-8">
-                       <div class="social">
-                            <ul class="social-share">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li> 
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-skype"></i></a></li>
-                            </ul>
-                            <div class="search">
-                                <form role="form">
-                                    <input type="text" class="search-form" autocomplete="off" placeholder="Search">
-                                    <i class="fa fa-search"></i>
-                                </form>
-                           </div>
-                       </div>
-                    </div>
+
+           {% if user.is_authenticated %}
+
+
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido, {{user.profile.nombre}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""><i class="glyphicon glyphicon-cog"></i>   Mi perfil</a></li>
+
+
+            {% if user.is_superuser %}
+
+                            <li><a href="{% url 'peliculas' %}?filtro=pendiente"><i class="glyphicon glyphicon-film"></i>   Gestionar peliculas</a></li>
+                            <li><a href="{% url 'historial' %}?festival={{datos.anio}}&filtro=registrada"><i class="glyphicon glyphicon-list-alt"></i>   Ver Historial</a></li>
+
+            {% else %}
+                            <li><a href="{% url 'sendfilm' %}"><i class="glyphicon glyphicon-film"></i>   Inscribir pelicula</a></li>
+
+           {% endif%} 
+
+
+
+                            <li class="divider"></li>
+                            <li><a href="{% url 'logout' %}?next=/festivalapp/"><i class="glyphicon glyphicon-off"></i>   Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+
+		{% else %}
+
+
+
+
+
+                <div class="navbar-form navbar-right">
+					<a href="{% url 'login' %}">Entrar | </a>
+					<a href="{% url 'signup' %}">Registrarse</a>
+            	</div>
+
+		{% endif %}
                 </div>
             </div><!--/.container-->
         </div><!--/.top-bar-->
@@ -79,7 +110,7 @@
                         <li><a href="{% url 'contacto' %}">Contacto</a></li>                        
                     </ul>
                 </div>
-                    <a class="navbar-brand" href="index.html"><img src="{% static 'images/logo1.png' %}" alt="logo"></a>
+                    <a class="navbar-brand" href="index.html"><img src="{{datos.logo.url}}" alt="logo"></a>
             </div><!--/.container-->
         </nav><!--/nav-->
 		
@@ -88,6 +119,7 @@
 
       {% block content %}
       {% endblock %}
+
 
 
 
@@ -109,12 +141,40 @@
         </div>
     </footer><!--/#footer-->
 
-    <script src="{% static 'js/jquery.js'%}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
     <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
     <script src="{% static 'js/jquery.isotope.min.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
     <script src="{% static 'js/wow.min.js'%}"></script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+<script src="{% static 'js/calendar.js'%}"></script>
+<script src="{% static 'js/en.js'%}"></script>
+<script type="text/javascript"
+	src="https://viralpatel.net/blogs/demo/jquery/jquery.shorten.1.0.js"></script>
+
+    <script>
+
+
+// We define the function
+function fixFooter(){
+   var docHeight = $(window).height();
+   var footerHeight = $('#footer').outerHeight();
+   var footerTop = $('#footer').position().top + footerHeight;
+
+   if (footerTop < docHeight) {
+    $('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+    }
+}
+
+$(document).ready(function(){
+  // we call the function
+  fixFooter();
+});
+ </script>
+
 
 
 </body>

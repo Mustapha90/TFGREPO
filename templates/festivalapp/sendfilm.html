@@ -1,0 +1,170 @@
+{% extends "festivalapp/layout.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+<script type="text/javascript"> 
+
+
+
+window.onload = function() {
+ var step = "{{ wizard.steps.step1 }}";
+
+	if(step==1){
+		document.getElementById("step1").className = "active";
+		document.getElementById("step2").className = "disabled";
+		document.getElementById("step3").className = "disabled";
+		document.getElementById("step4").className = "disabled";
+	}
+	else if(step==2){
+		document.getElementById("step2").className = "active";
+		document.getElementById("step1").className = "disabled";
+		document.getElementById("step3").className = "disabled";
+		document.getElementById("step4").className = "disabled";
+
+	}
+	else{
+		document.getElementById("step3").className = "active";
+		document.getElementById("step1").className = "disabled";
+		document.getElementById("step2").className = "disabled";
+		document.getElementById("step4").className = "disabled";
+	
+	}
+
+}
+</script>
+
+
+<div class="container">
+	<div id="signupbox" style="margin-top:50px" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Inscribir película</div>
+
+                        </div>  
+
+                        <div class="panel-body" >
+
+	<div class="row form-group">
+        <div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                <li class="disabled" id="step1"><a class="disable" href="#">
+                    <h4 class="list-group-item-heading">Paso 1</h4>
+                    <p class="list-group-item-text">Información básica</p>
+                </a></li>
+                <li class="disabled" id="step2"><a class="disable" href="#">
+                    <h4 class="list-group-item-heading">Paso 2</h4>
+                    <p class="list-group-item-text">Material</p>
+                </a></li>
+                <li class="disabled" id="step3"><a class="disable" href="#">
+                    <h4 class="list-group-item-heading">Paso 3</h4>
+                    <p class="list-group-item-text">Info extra</p>
+                </a></li>
+            </ul>
+        </div>
+	</div>
+
+ {% for field in form %}
+{% if field.errors %}
+    <div class="flash">{{ field.errors }}</div>
+{% endif %}
+{% endfor %}
+                            <form id="signupform" class="form-horizontal" role="form" action="."  method="post" enctype="multipart/form-data"> {%csrf_token %}
+<!-- Mostrar errores -->
+
+<table>
+{{ wizard.management_form }}
+{% if wizard.form.forms %}
+    {{ wizard.form.management_form }}
+    {% for form in wizard.form.forms %}
+        {{ form }}
+    {% endfor %}
+{% else %}
+ {% for field in wizard.form %}
+
+<!-- Text input-->
+<div class="form-group">
+
+    {% if field.field.required %}
+      	<label for="{{ field.auto_id }}" class="col-md-3 control-label required">{{field.label}}</label>
+    {% else %}
+      	<label for="{{ field.auto_id }}" class="col-md-3 control-label">{{field.label}}</label>		
+    {% endif %}
+
+
+
+  <div class="col-md-9">
+    {% if field.html_name != "2-secciones" %}
+		 {{field|add_class:"form-control input-md"}}
+    {% else %}
+<ul class="list-group">
+{% for checkbox in field %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ checkbox.tag }} {{ checkbox.choice_label }}
+</li>
+
+{% endfor %}
+</ul>
+    {% endif %}
+  <span class="help-block">{{field.help_text}}</span>  
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+
+
+</table>
+{% if wizard.steps.prev %}
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Paso 1</button>
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Volver</button>
+
+{% endif %}
+
+{% if wizard.steps.current == '2' %}
+<input type="submit" value="{% trans "Enviar" %}"/>
+
+{% else %}
+<input type="submit" value="{% trans "Siguiente" %}"/>
+
+{% endif %}
+
+</form>
+</div>
+
+                         </div>
+                    </div>
+
+                                   </div>
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      format: "mm/dd/yyyy",
+      autoclose: true,
+
+      // You can put more options here.
+
+    });
+  });
+</script>
+
+
+{% endblock %}
+

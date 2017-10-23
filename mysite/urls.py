@@ -16,11 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='/festivalapp/')),
     url(r'^festivalapp/', include('festivalapp.urls')),
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
 
 
