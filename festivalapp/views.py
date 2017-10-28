@@ -47,13 +47,14 @@ def getdatos():
     return datos
 
 
-datos = getdatos()
+
 from django.shortcuts import redirect
 
 
 
 
 def index(request):
+    datos = getdatos()
     festival_actual = Festival.objects.latest('anio')
     programa = Programa.objects.get(festival = festival_actual)
 
@@ -69,7 +70,7 @@ def index(request):
 
 def editarperfil(request):
     user = User.objects.get(email=request.user) 
-
+    datos = getdatos()
     print(user.profile.nombre)
     if request.method == 'POST':
         user.profile.nombre = request.POST['nombre']
@@ -89,6 +90,7 @@ def editarperfil(request):
 from django.core.mail import send_mail
 
 def contacto(request):
+    datos = getdatos()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():     
@@ -124,23 +126,28 @@ def contacto(request):
 
 
 def aboutus(request):
+    datos = getdatos()
 	return render(request, 'festivalapp/sobrenosotros.html', {'datos': datos})
 
 def bases(request):
+    datos = getdatos()
 	return render(request, 'festivalapp/bases.html', {'datos': datos})
 
 def galardones(request):
+    datos = getdatos()
 	return render(request, 'festivalapp/galardones.html', {'datos': datos})
 
 
 
 def perfil(request):
+    datos = getdatos()
     datosG = request.session.pop('datosG', False)
 
     return render(request, 'festivalapp/perfil.html', {'datos': datos, 'datosG' : datosG})
 
 
 def mis_peliculas(request):
+    datos = getdatos()
     user = User.objects.get(email=request.user)
     peliculas = Pelicula.objects.filter(usuario=user)
 
@@ -163,6 +170,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 
 def changepass(request):
+    datos = getdatos()
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -179,6 +187,7 @@ def changepass(request):
 
 
 def changepass_success(request):
+    datos = getdatos()
     return render(request, 'festivalapp/changepass_success.html', {'datos': datos})
 
 
@@ -187,6 +196,7 @@ from django.shortcuts import render, redirect
 from festivalapp.forms import SignUpForm
 
 def signup(request):
+    datos = getdatos()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -211,6 +221,7 @@ from django.http import HttpResponseRedirect
 
 
 def sendfilm(request):
+    datos = getdatos()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -231,6 +242,7 @@ def sendfilm(request):
 
 
 def sendfilm_success(request):
+    datos = getdatos()
     return render(request, 'festivalapp/sendfilm_success.html', {'datos': datos})
 
 from django.shortcuts import redirect
@@ -243,6 +255,7 @@ from collections import defaultdict
 
 
 class ContactWizard(SessionWizardView):
+    datos = getdatos()
     template_name = "festivalapp/sendfilm.html"
     file_storage = DefaultStorage()
     secciones_list = []
@@ -380,6 +393,7 @@ class Historial(ListView):
 
 
 def calendar(request):
+    datos = getdatos()
     festival_actual = Festival.objects.latest('anio')
     peliculas = Pelicula.objects.filter(participante=True, festival=festival_actual.anio)
 
