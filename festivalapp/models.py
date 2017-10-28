@@ -42,7 +42,7 @@ class Profile(models.Model):
     nombre = models.CharField(max_length=30, null=True)
     apellidos = models.CharField(max_length=60, null=True)
     telefono = models.CharField(max_length=13, null=True)
-    apellidos = models.CharField(max_length=60, null=True)	
+    direccion = models.CharField(max_length=200, null=True)	
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -188,7 +188,8 @@ class Pelicula(models.Model):
     festival = models.IntegerField(default=datetime.datetime.now().year)
 
 
-
+    def __unicode__(self):
+       return self.titulo
 
 
 
@@ -210,9 +211,6 @@ class Festival(models.Model):
     secciones = models.ManyToManyField(Seccion, blank=True)
 
 
-
-
-
     def __unicode__(self):
        return "Festival del " + str(self.anio)
 
@@ -222,6 +220,35 @@ class Festival(models.Model):
 
 
 
+
+
+
+
+
+
+class Proyeccion(models.Model):
+    pelicula = models.OneToOneField(Pelicula, unique=False)
+    fecha = models.DateField(blank=True, null=True)
+    horaInicio = models.TimeField(null=True)
+    horaFin = models.TimeField(null=True)
+    orderdate = models.DateTimeField(null=True)
+    prog = models.ForeignKey('Programa', null=True, unique=False)
+
+    def __unicode__(self):
+       return "Proyección de: " + self.pelicula.titulo
+
+
+class Programa(models.Model):
+    festival = models.OneToOneField(
+        Festival,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    proyecciones = models.ManyToManyField(Proyeccion, blank=True)
+    visibilidad = models.BooleanField(default=False)
+
+    def __unicode__(self):
+       return "Programa del " + str(self.festival.anio)
 
 
 

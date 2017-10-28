@@ -11,64 +11,399 @@
 }
 
 </style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-clockpicker.min.css' %}">
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<div class="container">
-    <div class="row clearfix">
-    	<div class="col-md-12 table-responsive">
-			<table class="table table-bordered table-hover table-sortable" id="tab_logic">
+<div class="container" style="margin-top:4%;margin-bottom:2%; min-height: 600px;">
+
+<div class="alert alert-success" style="display:none;" id="success-alert">
+    <strong></strong>
+</div>
+
+<div class="alert alert-danger" style="display:none;" id="danger-alert">
+    <strong></strong>
+</div>
+    <div class="panel panel-info">
+      <div class="panel-heading">Gestionar del programa del festival</div>
+      <div class="panel-body">
+            <div class="row clearfix">
+    	<div class="col-md-12 table-responsive" >
+			<table class="table table-bordered table-hover table-sortable" style="background:white;" id="tab_logic">
 				<thead>
 					<tr >
 						<th class="text-center">
-							Name
+                            Pelicula
 						</th>
 						<th class="text-center">
-							Email
+							Fecha
 						</th>
 						<th class="text-center">
-							Notes
+							Hora comienzo
 						</th>
-    					<th class="text-center">
-							Option
+
+						<th class="text-center">
+							Hora fin
 						</th>
+
         				<th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
 						</th>
 					</tr>
 				</thead>
 				<tbody>
     				<tr id='addr0' data-id="0" class="hidden">
-						<td data-name="name">
-						    <input type="text" name='name0'  placeholder='Name' class="form-control"/>
-						</td>
-						<td data-name="mail">
-						    <input type="text" name='mail0' placeholder='Email' class="form-control"/>
-						</td>
-						<td data-name="desc">
-						    <textarea name="desc0" placeholder="Description" class="form-control"></textarea>
-						</td>
     					<td data-name="sel">
-						    <select name="sel0">
-        				        <option value"">Select Option</option>
-    					        <option value"1">Option 1</option>
-        				        <option value"2">Option 2</option>
-        				        <option value"3">Option 3</option>
+						    <select name="sel0" id='peliculas'>
+        				        <option value="default">Elegir pelicula</option>
+
 						    </select>
 						</td>
+						<td data-name="mail">
+<input type="text" class="datepicker form-control">
+						</td>
+						<td data-name="starttime">
+<div class="input-group clockpicker">
+    <input type="text" class="clockpicker form-control" id="inicio">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-time"></span>
+    </span>
+</div>
+						</td>
+
+						<td data-name="endtime">
+<div class="input-group clockpicker" required>
+    <input type="text" class="clockpicker form-control" id="fin">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-time"></span>
+    </span>
+</div>
+
+						</td>
+
                         <td data-name="del">
-                            <button nam"del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
+                            <button nam"del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'>  </button>
                         </td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<a id="add_row" class="btn btn-default pull-right">Add Row</a>
+
+<div class="checkbox pull-left">
+  <label style="color:blue;"><input type="checkbox" id="checkbox" value="" {% if visible %} checked {% endif %}>Hacer el programa visible en la portada</label>
 </div>
+
+	<a id="add_row" class="btn btn-default pull-right">Añadir evento</a>
+	<a id="guardar" class="btn btn-success pull-right" style="margin-right:1%;">Guardar</a>
+
+    </div>
+
+
+
+    </div>
+
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% static 'js/bootstrap-clockpicker.min.js' %}"></script>
 
 
 <script>
+    function bindClockPicker() {
+        $('.clockpicker').clockpicker({
+            placement: 'bottom',
+            align: 'left',
+            donetext: 'Done'
+        });
+    }
+
+
+    function formatDate(date) {
+        if((typeof date == 'undefined') || (date == null) || 
+            (date.length <= 0)) {
+            return '';
+        }
+        var year = date.substring(0, 4);
+        var month = date.substring(5, 7);
+        var day = date.substring(8, 10);
+        return day + '/' + month + '/' + year;
+    }
+
+var peliculas;
+var pelisElegidas = [];
+var dropdown;
+var proyecciones;
+
 $(document).ready(function() {
+
+$('#checkbox').change(function() {
+
+    var checked = this.checked
+$.ajax({
+    type: 'post',
+    url: "{% url 'publicarPrograma' %}",
+    data:  JSON.stringify(this.checked),
+    contentType: "application/json; charset=utf-8",
+    traditional: true,
+         beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+         },
+    success: function (data) {
+
+            var mensaje;
+            if(checked)
+                mensaje="Ya se puede consultar el programa en la portada!";
+            else
+                mensaje="El programa no será visible en la portada!";
+
+
+                $("#success-alert strong").html(mensaje);
+                $("#success-alert").show();
+                 $("#success-alert").fadeTo(4000, 500).slideUp(500, function(){
+               $("#success-alert").slideUp(500);
+                }); 
+            
+    }
+});
+
+});
+
+
+$.ajaxSetup({
+    async: false
+});
+
+
+
+
+
+$.getJSON("{% url 'getPelisParticipantes' %}", function(result) {
+    peliculas = result;
+});
+
+
+$.getJSON("{% url 'getPrograma' %}", function(result) {
+    proyecciones = result;
+});
+
+
+$.ajaxSetup({
+    async: true
+});
+
+
+console.log(proyecciones);
+
+        dropdown  = $('#peliculas')
+        $.each(peliculas, function(pelicula) {
+            dropdown.append(new Option(peliculas[pelicula].fields.titulo, peliculas[pelicula].pk));
+        });
+
+
+
+
+
+$.each(proyecciones, function(i) {
+    pk = proyecciones[i].fields.pelicula;
+    fecha = proyecciones[i].fields.fecha;
+    horaInicio = proyecciones[i].fields.horaInicio;
+    horaFin = proyecciones[i].fields.horaFin;
+    crearProyeccion(pk, fecha, horaInicio, horaFin);
+});
+function crearProyeccion(pk, fecha, horaInicio, horaFin) {
+        // Dynamic Rows Code
+        
+        // Get max row id and set new id
+        var newid = 0;
+        $.each($("#tab_logic tr"), function() {
+            if (parseInt($(this).data("id")) > newid) {
+                newid = parseInt($(this).data("id"));
+            }
+        });
+        newid++;
+        
+        var tr = $("<tr></tr>", {
+            id: "addr"+newid,
+            "data-id": newid
+        });
+        
+        // loop through each td and create new elements with name of newid
+        $.each($("#tab_logic tbody tr:nth(0) td"), function() {
+            var cur_td = $(this);
+            
+            var children = cur_td.children();
+            
+            // add new td and element if it has a nane
+            if ($(this).data("name") != undefined) {
+                var td = $("<td></td>", {
+                    "data-name": $(cur_td).data("name")
+                });
+                
+                var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                c.attr("name", $(cur_td).data("name") + newid);
+                c.appendTo($(td));
+                td.appendTo($(tr));
+            } else {
+                var td = $("<td></td>", {
+                    'text': $('#tab_logic tr').length
+                }).appendTo($(tr));
+            }
+        });
+
+
+      $(tr).find("select").val(pk)
+      $(tr).find(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy",
+            autoclose: true,
+      });
+
+
+
+
+
+      $(tr).find("#inicio").val(horaInicio.replace(/:[^:]*$/,'') )
+      $(tr).find("#fin").val(horaFin.replace(/:[^:]*$/,'') );
+      $(tr).find(".datepicker").val(formatDate(fecha))
+
+
+       $(tr).appendTo($('#tab_logic'));
+       bindClockPicker();
+
+
+
+
+
+        
+        $(tr).find("td button.row-remove").on("click", function() {
+             $(this).closest("tr").remove();
+        });
+
+
+
+}
+
+
+
+
+
+
+
+function validarHoraInicioFin(horaInicio, horaFin) {
+    return horaInicio < horaFin
+}
+function hasDuplicates(array) {
+    var valuesSoFar = Object.create(null);
+    for (var i = 0; i < array.length; ++i) {
+        var value = array[i];
+        if (value in valuesSoFar) {
+            return true;
+        }
+        valuesSoFar[value] = true;
+    }
+    return false;
+}
+
+
+var error=false;
+var mensaje="";
+$("#guardar").on("click", function() {
+    var proyecciones = new Array();
+
+
+   var count = $('#tab_logic tbody tr').length; 
+   if(count<=1){
+            $("#danger-alert strong").html("Debe añadir proyecciones antes de guardar el programa!");
+            $("#danger-alert").show();
+            return false;
+   }
+
+    $("tr").each(function() {
+       pelicula = $(this).find("select").val();
+       fecha = $(this).find(".datepicker").val()
+       horaInicio = $(this).find("#inicio").val()
+       horaFin = $(this).find("#fin").val()
+
+
+       var proyeccion; // create an empty array
+
+
+
+       if(pelicula != "default" && pelicula != undefined){
+
+                if( !validarHoraInicioFin(horaInicio, horaFin) ){
+                    error=true; 
+                    mensaje = "Error: El tiempo de inicio no puede ser posterior al tiempo de fin!";
+                    return false;
+                }
+                if(fecha==""){
+                    error=true; 
+                    mensaje = "Error: El campo fecha no puede estar vacío!";
+                    return false;
+                }
+                proyeccion = {};
+                proyeccion['pelicula'] = pelicula; 
+                proyeccion['fecha'] = fecha; 
+                proyeccion['horaInicio'] = horaInicio; 
+                proyeccion['horaFin'] = horaFin; 
+                proyecciones.push(proyeccion);
+       }
+    });
+
+
+if(!error){
+
+
+var listaPeliculas = new Array();
+for(var i=0; i<proyecciones.length; i++){
+    listaPeliculas.push(proyecciones[i]['pelicula']); 
+}
+
+if(hasDuplicates(listaPeliculas)){
+    $("#danger-alert strong").html("Error: No puede haber proyecciones con la misma pelicula!");
+    $("#danger-alert").show();
+    return false;
+}
+
+
+datos = JSON.stringify(proyecciones)
+$.ajax({
+    type: 'post',
+    url: "{% url 'guardarPrograma' %}",
+    data: datos,
+    contentType: "application/json; charset=utf-8",
+    traditional: true,
+         beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+         },
+    success: function (data) {
+                 $("#danger-alert").hide();
+                        $("#success-alert strong").html("El pograma se ha guardado correctamente!");
+                $("#success-alert").show();
+                 $("#success-alert").fadeTo(4000, 500).slideUp(500, function(){
+               $("#success-alert").slideUp(500);
+                }); 
+    }
+});
+}else{
+    error=false;
+    $("#danger-alert strong").html(mensaje);
+    $("#danger-alert").show();
+    
+}
+
+});
+
+
+
+
+
+
+
+
+
+
     $("#add_row").on("click", function() {
         // Dynamic Rows Code
         
@@ -108,50 +443,125 @@ $(document).ready(function() {
                 }).appendTo($(tr));
             }
         });
-        
-        // add delete button and td
-        /*
-        $("<td></td>").append(
-            $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
-                .click(function() {
-                    $(this).closest("tr").remove();
-                })
-        ).appendTo($(tr));
-        */
+
+
+
+/*$("tr").each(function() {
+        var email = $(this).find("input").val("hhh");
+        console.log(email);
+});*/
+
+
         
         // add the new row
+
+      //  $(tr).find("textarea").val("hhh")
+      $(tr).find(".datepicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "dd/mm/yy",
+      autoclose: true,
+
+    });
+
+
+
+  
+
+
         $(tr).appendTo($('#tab_logic'));
+       // $(tr).find(".clockpicker").Clockpicker();
+bindClockPicker();
+
+
+
+
+
         
         $(tr).find("td button.row-remove").on("click", function() {
              $(this).closest("tr").remove();
         });
+
+
+
+
+
+
 });
 
 
 
-
-    // Sortable Code
-    var fixHelperModified = function(e, tr) {
-        var $originals = tr.children();
-        var $helper = tr.clone();
-    
-        $helper.children().each(function(index) {
-            $(this).width($originals.eq(index).width())
-        });
-        
-        return $helper;
-    };
-  
-    $(".table-sortable tbody").sortable({
-        helper: fixHelperModified      
-    }).disableSelection();
-
-    $(".table-sortable thead").disableSelection();
-
-
-
-    $("#add_row").trigger("click");
 });
+
+
+/*
+
+$('body').on('change', 'select', function() {
+     var optionSelected = $(this).find("option:selected");
+     var pk  = optionSelected.val();
+     var texto   = optionSelected.text();
+     
+     pelisElegidas.push(pk);
+     
+     console.log(pelisElegidas);
+
+
+});
+
+
+$('body').on('focus','select', function () {
+    var ddl = $(this);
+    ddl.data('previous', ddl.val());
+}).on('change','select', function () {
+    var ddl = $(this);
+    var previous = ddl.data('previous');
+    var pk = ddl.val();
+
+
+
+    if( !(pelisElegidas.indexOf(pk) > -1) )
+        pelisElegidas.push(pk);
+
+
+
+    if( pelisElegidas.indexOf(previous) > -1)
+        pelisElegidas.splice( $.inArray(previous, pelisElegidas), 1 );
+
+   // console.log(pelisElegidas);
+
+   
+
+    $('body select').each(function() {
+        var selectedOption = $(this).find('option:selected');
+        var options = $(this).find('option');
+        console.log("Options: " + options);
+
+        console.log("selected" + selectedOption.val() + ", " + pk)
+        if(selectedOption.val() != pk){
+            for (var i=0; i<options.length; i++){
+                console.log(options[i].value);
+                if (options[i].value == pk){
+                    console.log(options[i].value);
+                    options.remove(i);
+                }
+
+            }
+        }
+        console.log('Value: ' + selectedOption.val() + ' Text: ' + selectedOption.text());
+       console.log(selectedOption.text());
+    });
+
+
+
+
+
+
+
+
+    ddl.data('previous', ddl.val());
+});
+*/
+
 </script>
 
 {% endblock %}

@@ -11,14 +11,16 @@ from django import forms
 from django.http import HttpResponse
 
 from festivalapp.models import Profile
+from festivalapp.models import User
 
 from festivalapp.forms import peliculaForm2
-from festivalapp.models import Pelicula
+from festivalapp.models import Pelicula, Programa, Proyeccion
 
 from django.contrib import messages
 
 from django.core.files.storage import FileSystemStorage
 from django.template import RequestContext
+from festivalapp.forms import ContactForm
 
 import os
 from django.conf import settings
@@ -28,7 +30,8 @@ from festivalapp.models import Festival
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from paypal.standard.forms import PayPalPaymentsForm
-
+import datetime
+from festivalapp.forms import EditarPerfilForm
 
 # Create your views here.
 
@@ -45,13 +48,79 @@ def getdatos():
 
 
 datos = getdatos()
+from django.shortcuts import redirect
+
+
+
 
 def index(request):
-    return render(request, 'festivalapp/index.html', {'datos': datos})
+    festival_actual = Festival.objects.latest('anio')
+    programa = Programa.objects.get(festival = festival_actual)
 
+
+    if(programa.visibilidad):
+        proyecciones = programa.proyecciones.all().order_by('orderdate')
+    else:
+        proyecciones = []
+
+    return render(request, 'festivalapp/index.html', {'datos': datos, 'progVisible' : programa.visibilidad, 'proyecciones': proyecciones})
+
+
+
+def editarperfil(request):
+    user = User.objects.get(email=request.user) 
+
+    print(user.profile.nombre)
+    if request.method == 'POST':
+        user.profile.nombre = request.POST['nombre']
+        user.profile.apellidos = request.POST['apellidos']
+        user.profile.telefono = request.POST['telefono']
+        user.profile.direccion = request.POST['direccion']
+        user.save()
+        request.session['datosG'] = True
+
+        return redirect('perfil')
+
+    else:
+        form = EditarPerfilForm(initial={'nombre':user.profile.nombre, 'apellidos': user.profile.apellidos, 'telefono' : user.profile.telefono, 'direccion': user.profile.direccion})
+
+    return render(request, 'festivalapp/editarperfil.html', {'form': form, 'datos' : datos})
+
+from django.core.mail import send_mail
 
 def contacto(request):
-	return render(request, 'festivalapp/contact-us.html', {'datos': datos})
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():     
+            data = form.cleaned_data
+            nombre = data['nombre']
+            apellidos = data['apellidos']
+            email = data['email']
+            asunto = data['asunto']
+            mensaje = data['mensaje']
+
+
+            DEFAULT_FROM_EMAIL='(Festival Cinemistica) Web <no-reply@Cinemistica.com>' 
+
+            send_mail(asunto, mensaje + "Email: " + email + "/n" + "Nombre: " + nombre + "/nApellidos: " + apellidos, DEFAULT_FROM_EMAIL, ['mustapha@correo.ugr.es'], fail_silently=False)
+
+            print(nombre)
+            print(apellidos)
+            print(email)
+            print(asunto)
+            print(mensaje)
+
+            return redirect('index')
+
+    else:
+        form = ContactForm
+
+    return render(request, 'festivalapp/contact-us.html', {'form': form, 'datos' : datos})
+
+
+
+
+
 
 
 def aboutus(request):
@@ -62,6 +131,55 @@ def bases(request):
 
 def galardones(request):
 	return render(request, 'festivalapp/galardones.html', {'datos': datos})
+
+
+
+def perfil(request):
+    datosG = request.session.pop('datosG', False)
+
+    return render(request, 'festivalapp/perfil.html', {'datos': datos, 'datosG' : datosG})
+
+
+def mis_peliculas(request):
+    user = User.objects.get(email=request.user)
+    peliculas = Pelicula.objects.filter(usuario=user)
+
+
+    festival_actual = Festival.objects.latest('anio')
+
+    if Programa.objects.filter(festival=festival_actual).exists():
+        programa = Programa.objects.get(festival = festival_actual)
+        progPublicado = programa.visibilidad
+    else:
+        progPublicado = False
+
+
+    return render(request, 'festivalapp/mispeliculas.html', {'datos': datos, 'peliculas': peliculas, 'progPublicado' : progPublicado})
+
+
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+
+def changepass(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            return redirect('changepass_success')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'festivalapp/changepass.html', {
+        'form': form, 'datos':datos
+    })
+
+
+
+
+def changepass_success(request):
+    return render(request, 'festivalapp/changepass_success.html', {'datos': datos})
 
 
 from django.contrib.auth import login, authenticate
@@ -86,7 +204,7 @@ def signup(request):
             return render_to_response('festivalapp/thankyou.html', {'datos': datos})
     else:
         form = SignUpForm()
-    return render(request, 'registration/registration_form.html', {'form': form}, {'datos': datos})
+    return render(request, 'registration/registration_form.html', {'form': form, 'datos' : datos})
 
 from django.http import HttpResponseRedirect
 
@@ -105,11 +223,11 @@ def sendfilm(request):
             user.save()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.email, password=raw_password)
-            login(request, user)
+            #login(request, user)
             return redirect('index')
     else:
         form = SignUpForm()
-    return render(request, 'festivalapp/sendfilm.html', {'form': form}, {'datos': datos})
+    return render(request, 'festivalapp/sendfilm.html', {'form': form, 'datos' : datos})
 
 
 def sendfilm_success(request):
@@ -199,18 +317,19 @@ class Peliculas(ListView):
     context_object_name = 'peliculas'
 
     def get_queryset(self, **kwargs):
+        festival_actual = Festival.objects.latest('anio')
         filtro = self.request.GET.get('filtro', None)
 
         if filtro == 'pendiente':
-            return Pelicula.objects.filter(participante=False)
+            return Pelicula.objects.filter(festival =festival_actual.anio,  participante=False)
         if filtro == 'participante':
-            return Pelicula.objects.filter(participante=True)
+            return Pelicula.objects.filter(festival =festival_actual.anio,participante=True)
         if filtro == 'premiada':
-            return Pelicula.objects.filter(premiada=True)
+            return Pelicula.objects.filter(festival =festival_actual.anio,premiada=True)
         if filtro == 'todas':
             return Pelicula.objects.all()
         if filtro == None:
-            return Pelicula.objects.filter(participante=False)
+            return Pelicula.objects.filter(festival =festival_actual.anio,participante=False)
     
 
 
@@ -261,7 +380,25 @@ class Historial(ListView):
 
 
 def calendar(request):
-    return render(request, 'festivalapp/calendar.html', {'datos': datos})
+    festival_actual = Festival.objects.latest('anio')
+    peliculas = Pelicula.objects.filter(participante=True, festival=festival_actual.anio)
+
+    if Programa.objects.filter(festival=festival_actual).exists():
+        programa = Programa.objects.get(festival = festival_actual)
+        visible = programa.visibilidad
+    else:
+        visible = False
+        p.save()
+
+
+    if(visible):
+        proyecciones = programa.proyecciones.all()
+
+    else:
+        proyecciones=[]
+        
+
+    return render(request, 'festivalapp/calendar.html', {'datos': datos, 'visible' : visible, 'proyecciones' : proyecciones})
 
 
 
@@ -304,6 +441,98 @@ def getpelicula(request):
     struct = json.loads(data)
     data = json.dumps(struct[0])
     return HttpResponse(data, content_type='application/json')
+
+
+
+
+def getPelisParticipantes(request):
+    festival_actual = Festival.objects.latest('anio')
+    participantes = Pelicula.objects.filter(participante=True, festival=festival_actual.anio)
+ 
+    print(participantes)
+
+
+    data = serializers.serialize('json', participantes)
+
+    return HttpResponse(data, content_type='application/json')
+
+
+def getPrograma(request):
+    festival_actual = Festival.objects.latest('anio')
+
+    if Programa.objects.filter(festival=festival_actual).exists():
+        programa = Programa.objects.get(festival=festival_actual)
+    else:
+        programa = Programa.objects.create(festival=festival_actual)
+        p.save()
+
+
+    proyecciones = programa.proyecciones.all()
+
+
+
+    data = serializers.serialize('json', proyecciones)
+
+    return HttpResponse(data, content_type='application/json')
+
+from django.utils import timezone
+
+def guardarPrograma(request):
+    proyecciones = request.body
+    festival_actual = Festival.objects.latest('anio')
+
+   
+    if Programa.objects.filter(festival=festival_actual).exists():
+        prog = Programa.objects.get(festival=festival_actual)
+    else:
+        prog = Programa.objects.create(festival=festival_actual)
+
+
+    Proyeccion.objects.filter(prog=prog).delete()
+    proyecciones = json.loads(proyecciones)
+
+    Programa.proyecciones.through.objects.all().delete()
+    Proyeccion.objects.filter(programa=prog).delete()
+
+
+    for proyeccion in proyecciones:
+         p = Proyeccion.objects.create(pelicula=Pelicula.objects.get(pk=proyeccion['pelicula']))
+
+         p.fecha = datetime.datetime.strptime(str(proyeccion['fecha']), "%d/%m/%Y").date()
+         p.horaInicio = proyeccion['horaInicio']
+         p.horaFin = proyeccion['horaFin']
+         p.prog = prog
+         horaF = datetime.datetime.strptime(p.horaInicio, '%H:%M').time()
+         p.orderdate = timezone.make_aware(datetime.datetime.combine(p.fecha, horaF), timezone.get_current_timezone())
+
+
+         p.save();
+         prog.proyecciones.add(p)
+
+
+    prog.save()
+    
+    
+    data = 1
+    return HttpResponse(data, content_type='application/json')
+
+
+
+def publicarPrograma(request):
+    publicar = request.body
+    festival_actual = Festival.objects.latest('anio')
+    programa = Programa.objects.get(festival = festival_actual)
+
+    if(publicar == "true"):
+        programa.visibilidad = True
+    else:
+        programa.visibilidad = False
+
+    programa.save()
+          
+    data = 1
+    return HttpResponse(data, content_type='application/json')
+
 
 
 

@@ -39,6 +39,33 @@ class SignUpForm(UserCreationForm):
 
 
 
+
+
+class EditarPerfilForm(forms.Form):
+    nombre = forms.CharField(max_length=30, required=True, help_text='', label='Nombre')
+    apellidos = forms.CharField(max_length=60, required=True, help_text='', label='Apellidos')
+    telefono = forms.CharField(max_length=13, required=True, help_text='', label='Telefono')
+    direccion = forms.CharField(max_length=100, required=True, help_text='', label='Dirección')
+
+
+    def clean(self):
+        cleaned_data = super(EditarPerfilForm, self).clean()
+
+
+
+
+class ContactForm(forms.Form):
+    nombre = forms.CharField(max_length=30, required=True, help_text='', label='Nombre')
+    apellidos = forms.CharField(max_length=60, required=True, help_text='', label='Apellidos')
+    email = forms.EmailField(label='Email')
+    asunto = forms.CharField(max_length=180, required=True, help_text='', label='Asunto')
+    mensaje = forms.CharField(widget=forms.Textarea)
+
+
+    def clean(self):
+        cleaned_data = super(ContactForm, self).clean()
+
+
 VIDEO= [
     ('color', 'Color'),
     ('blancoynegro', 'Blanco y negro'),

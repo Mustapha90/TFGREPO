@@ -20,14 +20,14 @@
     
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header" id="modal-header">
+        <div class="modal-header" style="color: blue;" id="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title"></h4>
         </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-5 product_img">
-                        <img id="poster" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPWhb5TGmfCtWcAw_U0eGmX4Xqw_NK4LTh1ehMQ399NjRyV0y-SQ" class="img-responsive">
+                        <img id="poster" src="" class="img-responsive">
                     </div>
                     <div class="col-md-7">
                     <div class="movie-castcrew"><span class="title">Título:</span><span id="titulo" class="name"></span></div>
@@ -88,11 +88,11 @@
             Gestión de peliculas
          </div>
         <div class="panel-title pull-right">
-                            <div class="btn-group">
-<a href="peliculas?filtro=pendiente" class="btn btn-warning btn-filter" role="button">Pendiente</a>
-<a href="peliculas?filtro=participante" class="btn btn-success btn-filter" role="button">Participante</a>
-<a href="peliculas?filtro=premiada" class="btn btn-danger btn-filter" role="button">Premiadas</a>
-<a href="peliculas?filtro=todas" class="btn btn-default btn-filter" role="button">Todas</a>
+                            <div class="btn-group" id="grupo">
+<a href="peliculas?filtro=pendiente" class="btn btn-warning btn-filter {% if request.GET.filtro == 'pendiente' or request.GET.filtro == None%}active{% endif %}" role="button" aria-pressed="true">Pendiente</a>
+<a href="peliculas?filtro=participante" class="btn btn-success btn-filter {% if request.GET.filtro == 'participante'%}active{% endif %}" role="button">Participante</a>
+<a href="peliculas?filtro=premiada" class="btn btn-danger btn-filter {% if request.GET.filtro == 'premiada'%}active{% endif %}" role="button">Premiadas</a>
+<a href="peliculas?filtro=todas" class="btn btn-default btn-filter {% if request.GET.filtro == 'todas'%}active{% endif %}" role="button">Todas</a>
 							</div>
        </div>
         <div class="clearfix"></div>
@@ -163,8 +163,6 @@
 
 
 {%endif%}
-
-
 
                                     </td>
                                 </tr>

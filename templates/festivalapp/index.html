@@ -11,13 +11,12 @@
             </ol>
             <div class="carousel-inner">
                 <div class="item active" style="background-image: url({%static 'images/slider/img1.jpg'%})">
-                    <div class="container">
+                    <div class="container" style="margin-top:0px">
                         <div class="row slide-margin">
                             <div class="col-sm-8">
                                 <div class="carousel-content">
                                     <h1 class="animation animated-item-1">Hoy es siempre todavía</h1>
-                                    <h class="animation animated-item-3">Antonio Machado
-</h2>
+                                    <h5 class="animation animated-item-2" style="color: #4bfced;">Antonio Machado</h5>
                                 </div>
                             </div>
 
@@ -41,7 +40,7 @@
                             <div class="col-sm-8">
                                 <div class="carousel-content">
                                     <h1 class="animation animated-item-1">Lo extraordinario está en las entrañas de lo ordinario</h1>
-                                    <h2 class="animation animated-item-2">Val del Omar</h2>
+                                    <h5 class="animation animated-item-2" style="color: #4bfced;">Val del Omar</h5>
                                 </div>
                             </div>
 
@@ -55,7 +54,7 @@
                             <div class="col-sm-8">
                                 <div class="carousel-content">
                                     <h1 class="animation animated-item-1">Entréme donde no supe y quedéme no sabiendo, toda ciencia transcendiendo</h1>
-                                    <h2 class="animation animated-item-2">San Juan de la Cruz</h2>
+                                    <h5 class="animation animated-item-2" style="color: #4bfced;">San Juan de la Cruz</h2>
                                 </div>
                             </div>
                         </div>
@@ -73,69 +72,51 @@
 
     <section id="feature" >
         <div class="container">
-
-
            <div class="wow fadeInDown">
                 <h2>Programa {{datos.anio}}</h2>
 
+
+
+           {% if progVisible %}
 <div class="tiva-event-calendar-wrapper">
 		<div class="tiva-event-calendar full">
             <div class="n-events-calendar-bar" style="position: relative;">
                   <div class="n-tiva-event-list-full n-tiva-event-list" style="display: block;">
 
+
+
+{% for proyeccion in proyecciones %}
         <div class="event-item">
             <div class="event-item-left pull-left">
-                <div class="event-image link" onclick="n_showEventDetail(4, 'full', 0, 0, 0)"><img src="http://tivatheme.com/wordpress/wp-content/plugins/tiva-events-calendar/images/event5.jpg" alt="Willie Nelson &amp; Family - Saturday"></div>
+                <div class="event-image link"><img src="/media/{{proyeccion.pelicula.image}}" alt="{{proyeccion.pelicula.titulo}}" height="300" width="300"></div>
              </div>
              <div class="event-item-right pull-left">
-                 <div class="event-name link" onclick="n_showEventDetail(4, 'full', 0, 0, 0)">Willie Nelson &amp; Family - Saturday</div>
-                 <div class="event-date"><i class="fa fa-calendar-o"></i>Tuesday, October 24, 2017</div>
-                 <div class="event-time"><i class="fa fa-clock-o"></i>5:30 pm</div>
-                 <div class="event-desc">Danny Zelisko Presents 
-Willie Nelson &amp; Family - Two Great Shows!
-
-Saturday – October 15, 2016
-Showtime - 8:00 PM
-Theatre Doors Open - 7:00 PM
-Club Doors Open ...</div>
+                 <div class="event-name link">{{proyeccion.pelicula.titulo}}</div>
+                 <div class="event-date"><i class="fa fa-calendar-o"></i>{{proyeccion.fecha}}</div>
+                 <div class="event-time"><i class="fa fa-clock-o"></i>{{proyeccion.horaInicio}} - {{proyeccion.horaFin}}</div>
+                 <div class="event-desc">{{proyeccion.pelicula.sinopsisesp}}</div>
               </div>
          </div>
-
-
 <div class="cleardiv"></div>
-
-        <div class="event-item">
-            <div class="event-item-left pull-left">
-                <div class="event-image link" onclick="n_showEventDetail(4, 'full', 0, 0, 0)"><img src="http://tivatheme.com/wordpress/wp-content/plugins/tiva-events-calendar/images/event5.jpg" alt="Willie Nelson &amp; Family - Saturday"></div>
-             </div>
-             <div class="event-item-right pull-left">
-                 <div class="event-name link" onclick="n_showEventDetail(4, 'full', 0, 0, 0)">Willie Nelson &amp; Family - Saturday</div>
-                 <div class="event-date"><i class="fa fa-calendar-o"></i>Tuesday, October 24, 2017</div>
-                 <div class="event-time"><i class="fa fa-clock-o"></i>5:30 pm</div>
-                 <div class="event-desc">Danny Zelisko Presents 
-Willie Nelson &amp; Family - Two Great Shows!
-
-Saturday – October 15, 2016
-Showtime - 8:00 PM
-Theatre Doors Open - 7:00 PM
-Club Doors Open ...</div>
-              </div>
-         </div>
-
-<div class="cleardiv"></div></div>
+{% endfor %}
 
 
 
 
 
-	</div>
+
+	</div></div>
+
+{% else %}
+
+
                 <p class="lead">Las fechas del IV Festival Cinemística serán del <span id="hl1">{{datos.fechinicio}} </span> al <span id="hl1">{{datos.fechinscrip}} </span>.El tema de la sección especial de este año es <span  id="hl">{{datos.titulo}}</span></p>
 
                 <p class="lead">{{datos.descripcion}}</p>
 
                 <p class="lead">El programa se encuentra actualmente en construcción, la fecha límite de admisión de films es el <span id="hl1">{{datos.fechinscrip}} </span> (ver <a href="#" id="hllink">bases</a> y <a href="#" id="hllink">ficha de inscripción)</a></p></div>
-            </div>
-            </div>
+
+{%endif%}
         </div><!--/.container-->
     </section><!--/#feature-->
 
@@ -269,7 +250,7 @@ Club Doors Open ...</div>
 <script type="text/javascript">
 	$(document).ready(function() {
 	$(".event-desc").shorten({
-	"showChars" : 100,
+	"showChars" : 500,
 	"moreText"	: "Más",
 	"lessText"	: "Menos",
     });

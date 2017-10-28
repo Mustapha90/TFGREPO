@@ -1,0 +1,72 @@
+{% extends "festivalapp/layout.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+
+{% load static %}
+{% block content %}
+
+<div class="container" style="margin-top:4%;margin-bottom:2%; min-height: 600px;">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+   
+
+ {% if datosG == True %}
+      <div class="alert alert-success alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a> 
+        <i class="fa fa-check"></i>
+        Los datos se han guardado correctamente!
+      </div>
+          
+{% endif %}
+
+
+          <div class="panel panel-info">
+             <div class="panel-heading"><strong>Mi Perfil</strong></div>
+            <div class="panel-body" id="perfil-panel">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"></div>
+                
+
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td><strong>Nombre:</strong></td>
+                        <td>{{user.profile.nombre}}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Apellidos:</strong></td>
+                        <td>{{user.profile.apellidos}}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Teléfono:</strong></td>
+                        <td>{{user.profile.telefono}}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Dirección:<strong></td>
+                        <td>{{user.profile.direccion}}</td>                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                 
+                  <a href="{% url 'editarperfil' %}" class="btn btn-primary pull-right">Editar</a>
+                  <a href="{% url 'changepass' %}" id="changepass">Cambiar contraseña</a>
+
+
+</a>
+
+                </div>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
