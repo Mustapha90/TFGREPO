@@ -322,6 +322,7 @@ from django.views.generic.list import ListView
 
      
 class Peliculas(ListView):
+    datos = getdatos()
     model = Pelicula
     template_name = 'festivalapp/peliculas.html'
     context_object_name = 'peliculas'
@@ -344,6 +345,7 @@ class Peliculas(ListView):
 
 
     def get_context_data(self, **kwargs):
+        datos = getdatos()
         context = super(Peliculas, self).get_context_data(**kwargs)
         context['datos'] = datos
         return context
@@ -373,6 +375,7 @@ class Historial(ListView):
 
 
     def get_context_data(self, **kwargs):
+        datos = getdatos()
         context = super(Historial, self).get_context_data(**kwargs)
         context['datos'] = datos
         festivales = Festival.objects.values('anio').distinct()
