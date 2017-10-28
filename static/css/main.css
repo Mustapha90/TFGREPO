@@ -1419,12 +1419,7 @@ ul.social_icons li  a i{
   padding: 60px;
 }
 
-.clients-comments {
-    background-image: url("../images/image_bg.png");
-    background-position: center 118px;
-    background-repeat: no-repeat;
-    margin-bottom: 100px;
-}
+
 
 .clients-comments img {
   background:#DDDDDD;
@@ -2138,15 +2133,7 @@ ul.pagination > li:hover > a {
   color: #fff;
 }
 
-.search_box {
-  background-image: url("../images/search_icon.png");
-  background-position: 314px 15px;
-  background-repeat: no-repeat;
-  border-color: #DEDEDE;
-  height: 48px;
-  outline: medium none;
-  box-shadow: none;
-}
+
 
 .form-control:focus {
   box-shadow:none;
