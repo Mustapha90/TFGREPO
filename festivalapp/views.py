@@ -122,20 +122,17 @@ def contacto(request):
 
 
 
-
-
-
 def aboutus(request):
     datos = getdatos()
-	return render(request, 'festivalapp/sobrenosotros.html', {'datos': datos})
+    return render(request, 'festivalapp/sobrenosotros.html', {'datos': datos})
 
 def bases(request):
     datos = getdatos()
-	return render(request, 'festivalapp/bases.html', {'datos': datos})
+    return render(request, 'festivalapp/bases.html', {'datos': datos})
 
 def galardones(request):
     datos = getdatos()
-	return render(request, 'festivalapp/galardones.html', {'datos': datos})
+    return render(request, 'festivalapp/galardones.html', {'datos': datos})
 
 
 
