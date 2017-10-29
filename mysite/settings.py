@@ -38,7 +38,7 @@ if ON_HEROKU:
     SECRET_KEY = config('SECRET_KEY')
 
     # Deshabilitar la depuración
-    DEBUG = config('DEBUG', default=False, cast=bool)
+    DEBUG = config('DEBUG', default=True, cast=bool)
 
     # Configuración de la base de datos Postgres usando la variable de entorno DATABASE_URL
     DATABASES = {
