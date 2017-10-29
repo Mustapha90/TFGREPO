@@ -353,6 +353,7 @@ class Peliculas(ListView):
 
 
     def get_context_data(self, **kwargs):
+        datos = getdatos()
         context = super(Peliculas, self).get_context_data(**kwargs)
         context['datos'] = datos
         return context
