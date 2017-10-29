@@ -186,8 +186,8 @@ AUTH_PROFILE_MODULE = 'festivalapp.Profile'
 PAYPAL_TEST = True
 PAYPAL_RECEIVER_EMAIL = 'mj4ever001@gmail.com'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 
 

@@ -309,7 +309,10 @@ $("a[name='detalles']").click(function() {
                 $("#enlacedescarga").attr("href",response.fields.enlacedescarga);
 
                 $('#sinopsis').html(response.fields.sinopsisesp);
-                $("#poster").attr("src","/media/" + response.fields.image);
+               // $("#poster").attr("src","/media/" + response.fields.image);
+                $("#poster").attr("src","{% static "" %}" + "/media/" + response.fields.image);
+
+
 
         }
     });
