@@ -285,6 +285,7 @@ class ContactWizard(SessionWizardView):
 
 
     def done(self, form_list, **kwargs):
+        datos = getdatos()
         form_data =[form.cleaned_data for form in form_list]
 
         form_data[0]['nacionalidad'] = dict(countries)[form_data[0]['nacionalidad']]

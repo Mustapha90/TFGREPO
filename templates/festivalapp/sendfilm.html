@@ -79,7 +79,8 @@ window.onload = function() {
     <div class="flash">{{ field.errors }}</div>
 {% endif %}
 {% endfor %}
-                            <form id="signupform" class="form-horizontal" role="form" action="."  method="post" enctype="multipart/form-data"> {%csrf_token %}
+                            <form id="signupform" class="form-horizontal" role="form" action="."  method="post" enctype="multipart/form-data"> 
+{%csrf_token %}
 <!-- Mostrar errores -->
 
 <table>
