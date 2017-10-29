@@ -48,7 +48,7 @@ def getdatos():
     datos['anio'] = festival_actual.anio
     return datos
 
-#datos = getdatos()
+datos = getdatos()
 
 from django.shortcuts import redirect
 
