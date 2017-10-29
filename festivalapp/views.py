@@ -392,7 +392,7 @@ def calendar(request):
         visible = programa.visibilidad
     else:
         visible = False
-        p.save()
+
 
 
     if(visible):
