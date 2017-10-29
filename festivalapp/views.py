@@ -57,15 +57,20 @@ from django.shortcuts import redirect
 
 def index(request):
     festival_actual = Festival.objects.latest('anio')
-    programa = Programa.objects.get(festival = festival_actual)
 
-
-    if(programa.visibilidad):
-        proyecciones = programa.proyecciones.all().order_by('orderdate')
+    if Programa.objects.filter(festival=festival_actual).exists():
+        programa = Programa.objects.get(festival = festival_actual)
+        if(programa.visibilidad):
+            proyecciones = programa.proyecciones.all().order_by('orderdate')
+            visible=True
+        else:
+            visible=False
+            proyecciones = []
     else:
+        visible = False
         proyecciones = []
-
-    return render(request, 'festivalapp/index.html', {'datos': datos, 'progVisible' : programa.visibilidad, 'proyecciones': proyecciones})
+        
+    return render(request, 'festivalapp/index.html', {'datos': datos, 'progVisible' : visible, 'proyecciones': proyecciones})
 
 
 
