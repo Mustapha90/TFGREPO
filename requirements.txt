@@ -2,7 +2,7 @@ certifi==2017.7.27.1
 chardet==3.0.4
 dj-database-url==0.4.2
 dj-static==0.0.6
-Django==1.11.3
+Django==1.11.28
 django-bootstrap-datepicker==1.2.3
 django-countries==4.6.2
 django-datatable==0.3.1
